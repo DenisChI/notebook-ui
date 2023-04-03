@@ -1,0 +1,55 @@
+<div class="container my-5">
+    <h1 class="mb-3">Add new person</h1>
+  
+    <div class="row">
+      <div class="col-6">
+        <form [formGroup]="myForm" novalidate (ngSubmit)="addPerson()">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" class="form-control" name="name" formControlName="firstName" placeholder="Enter First name" autofocus />
+  
+            <span class="text-danger"
+                  *ngIf="(myForm.controls['firstName'].touched || submitted) && myForm.controls['firstName'].errors?.['required']">
+              Name is required
+            </span>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" class="form-control" name="lName" formControlName="lastName" />
+          </div>
+          <div class="form-group">
+            <label>Birth Year</label>
+            <input type="number" class="form-control" name="birthYear" formControlName="birthYear" min="1900" max="2023" />
+          </div>
+          <div formArrayName="phones">
+            <div class="form-group" *ngFor="let phone of getFormPhonesControls()['controls']; let i = index">
+              <label>Phone {{i+1}}</label>
+              <input type="tel" #phoneInputs class="form-control" formControlName="{{i}}" placeholder="Enter phone number" />
+              <div class="show-error" *ngIf="(getFormPhonesControls()['controls'].at(i)?.touched) && getFormPhonesControls()['controls'].at(i)?.invalid">
+                <div class="show-error" *ngIf="(getFormPhonesControls()['controls'].at(i)?.errors?.['required']) && (getFormPhonesControls()['controls'].at(i)?.errors?.['dirty'])">
+                  Enter a mobile number
+                </div>
+  
+                <div class="show-error" *ngIf="(getFormPhonesControls()['controls'].at(i)?.errors?.['pattern']) && (getFormPhonesControls()['controls'].at(i)?.errors?.['dirty'])">
+                  Enter a 10 digit mobile number
+                </div>
+              </div>
+              <button type="button" class="btn btn-danger btn-sm" (click)="deletePhone(i)">delete phone</button>
+            </div>
+          </div>
+          <p></p>
+          <div class="form-group">
+            <button type="button" class="btn btn-success btn-sm" (click)="addPhone()">
+              add phone
+            </button>
+            <p></p>
+            <button id="btn" type="submit" class="btn btn-primary btn-sm" [disabled]="myForm.invalid">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+  </div>
+  

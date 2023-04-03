@@ -1,0 +1,32 @@
+<div class="container my-5">
+    <h1 class="mb-3">Persons</h1>
+    <input class="form-control" type="text" placeholder="Search. Enter First/Last name or phone number" [(ngModel)]="searchText">
+    <table class="table table-sm table-success table-striped table-hover table-bordered" *ngIf="persons && persons.length > 0">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Birth year</th>
+          <th>Phone numbers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let person of persons | search: searchText">
+          <td><a [routerLink]="['/persons','edit', person.personId ]">Edit details</a></td>
+          <td>{{ person.firstName }}</td>
+          <td>{{ person.lastName }}</td>
+          <td>{{ person.birthYear }}</td>
+          <td>
+            <table class="table table-sm table-secondary table-hover table-bordered">
+              <tbody>
+                <tr *ngFor="let phone of person.phones"><td>{{ phone.phoneNumber}}</td></tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="!persons || persons.length <= 0">No Persons Found!</p>
+  </div>
+  
